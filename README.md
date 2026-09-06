@@ -1,58 +1,56 @@
 # Olist 电商经营分析
 
-> 巴西电商 Olist（Kaggle 公开订单库）经营分析：SQL 多表取数 → 指标体系 → Python 交叉复核 → 业务建议。
-> 订单 99,441 笔 / 有效买家 94,983 人 / 数据窗 2016-09 ~ 2018-10。
+基于巴西 Olist 电商公开数据（约 9.9 万订单）完成的经营分析项目：MySQL 多表取数、SQL 业务分析、Pandas 交叉复核、图表与业务 memo。
 
-## 项目简介
+English: An e-commerce analytics project built on the public Brazilian Olist dataset (~99K orders), covering MySQL schema design, 8+ SQL business analyses, Python cross-validation, and data-driven recommendations.
 
-用关系型数据库对巴西 Olist 电商 9 万+ 订单做完整经营分析，回答：钱从哪来、客户价值如何、履约质量如何影响体验。全程 SQL 与 Pandas 双口径交叉验证，关键指标口径一致后才进入结论。
+![MySQL 8](https://img.shields.io/badge/MySQL-8.0-4479A1) ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB) ![Pandas](https://img.shields.io/badge/Pandas-2.3.3-150458) ![Status](https://img.shields.io/badge/Status-Completed-2ea44f)
 
-覆盖维度：GMV 大盘与月度趋势、区域/品类/支付结构、订单生命周期漏斗、RFM 分层、Cohort 留存、配送时效与差评关系、卖家集中度。
+---
 
+## 关键数字
 
-## 数据说明
+| 指标 | 结果 | 口径一句话 |
+|---|---:|---|
+| 订单总数 | 99,441 | orders 表全量订单 |
+| 有效订单量 | 98,199 | 有商品明细且非取消/不可用 |
+| 有效买家数 | 94,983 | 按 customer_unique_id 去重 |
+| GMV | R$15,735,527.03 | items 口径：price + freight |
+| 客单价 AOV | R$160.24 | GMV / 有效订单量 |
+| 复购率 | 3.04% | 全周期购买 ≥2 单客户占比 |
+| Cohort 第 1 月加权留存 | 0.45% | 首购月客群次月回访占比 |
+| 送达率 | 97.02% | delivered / orders 全量 |
+| 延迟率 | 6.77% | 晚于承诺时间的已送达订单 |
 
-- 来源：[Kaggle · Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
-- 本仓库 `data/` 收录 9 张原始 CSV（合计约 120 MB），便于离线复现
-- `olist_geolocation_dataset.csv` 约 61 MB，单文件低于 GitHub 100 MB 上限；超过 50 MB 时推送会有提示，属正常
-- 许可：Kaggle 数据集页面未标注明确 License；本项目仅作学习与展示，公开再分发请保留来源与归属
-## 关键结论
+---
 
-**1. 履约端整体健康，延迟是差评最强解释变量之一**
-已送达率 97.02%（96,478/99,441）；延迟订单占已送达可比单 6.77%。差评率（score≤2）从按时 9.22% 单调升至延迟 8–14 天的 80.08%（95% Wilson CI 各层不重叠），平均分从 4.29 跌到 1.67。
+## 核心发现
 
-**2. 客户“买完即走”：复购率仅 3.04%，30% GMV 来自高风险价值层**
-96.96% 的客户全周期只买 1 单；复购客户 2,887/94,983（3.04%）；首购月 Cohort 第 1 月加权留存 0.45%。RFM 中“高价值流失风险”层 20,922 人贡献 GMV 30.12%。
+**1. 配送延迟与差评高度相关**
+
+差评率（score ≤ 2）从按时送达的 9.22%，升至延迟 8–14 天的 80.08%；95% Wilson 置信区间各层不重叠。
+
+**2. 复购率极低，高价值客户正在流失**
+
+96.96% 的客户全周期只买 1 单；“高价值流失风险”层 20,922 人仅占客户 22.03%，却贡献 30.12% 的 GMV。
 
 **3. 需求端区域集中，供给端长尾**
-买家 GMV 中 SP 一州占 37.36%，Top5 州合计 73.14%；而 3,053 个卖家中 Top20 仅占 GMV 20.92%，无单一卖家依赖。
 
-**4. 头部品类占约六成，存在“高销量低评分”洼地**
-Top10 品类合计 GMV 62.33%；health_beauty 居首（9.14%）；bed_bath_table 订单量最高（9,399）且平均评分在 Top10 中最低（3.98）。
+买家 GMV 中 SP 州占 37.36%、Top5 州合计 73.14%；而 3,053 个卖家中 Top20 仅占 20.92%。
+
+**4. 头部品类存在“高销量低评分”洼地**
+
+Top10 品类合计贡献 62.33% GMV；bed_bath_table 销量最高，但平均评分在 Top10 中最低（3.98）。
 
 **5. 大促脉冲显著**
-月度 GMV 峰值在 2017-11（Black Friday），环比 +53.28%，随后回落 26.50%。
 
-## 关键数字基线（复现对照）
+GMV 月度峰值出现在 2017-11（R$1,172,191.68，环比 +53.28%），符合 Black Friday 促销节奏。
 
-> 口径见 docs/口径表.md；SQL↔Python 复核明细见 results/analysis_02_复核结果.csv；数值与 results/ 下 CSV 一致。
+---
 
-| 指标 | 基线值 | SQL 结果文件 | Python 复核 |
-|---|---|---|---|
-| 有效订单量 | 98,199 | results/01_大盘总览_q1.csv | 一致 |
-| 有效买家数 | 94,983 | results/01_大盘总览_q1.csv | 一致 |
-| GMV（items 口径） | R$15,735,527.03 | results/01_大盘总览_q1.csv | 一致 |
-| GMV（payments 核对） | R$15,739,137.01 | results/01_大盘总览_q2.csv | — |
-| 两口径差额 | R$3,609.98（0.02%） | results/01_大盘总览_q1.csv / _q2.csv | 口径表已解释 |
-| 客单价 AOV | R$160.24 | results/01_大盘总览_q1.csv | 一致 |
-| 复购客户 / 复购率 | 2,887 / 3.04% | results/06_RFM分层_q2.csv | 一致 |
-| Cohort 第 1 月加权留存 | 0.45% | results/07_Cohort留存_q1.csv | 一致 |
-| 送达订单 / 送达率 | 96,478 / 97.02% | results/01_大盘总览_q3.csv | — |
-| 延迟率（可比较已送达单） | 6.77%（6,534 / 96,470） | results/08_配送延迟与差评_q2.csv | results/analysis_03_配送延迟差评率.csv |
+## 图表
 
-## 可视化
-
-GMV 月度趋势与环比（核心期 2017-01 ~ 2018-08）：
+GMV 月度趋势与环比（环比自 2017-02 起展示，避免稀疏月份失真）：
 
 ![GMV 月度趋势](results/02_GMV月度趋势.png)
 
@@ -60,43 +58,61 @@ GMV 月度趋势与环比（核心期 2017-01 ~ 2018-08）：
 
 ![配送延迟差评率](results/analysis_03_配送延迟差评率.png)
 
-## 技术栈与方法
+---
 
-- MySQL 8：建库、9 表导入、8 个必做业务 SQL + 1 个可选 SQL
-- Python：Pandas 独立重算关键指标并与 SQL 比对；statsmodels 计算 Wilson 95% CI
-- 口径表先于 SQL：GMV / 客单价 / 复购 / Cohort / RFM / 漏斗 / 差评均有书面定义
+## 项目流程
 
-## 目录结构
+```text
+9 张原始 CSV
+  -> MySQL 建库导表
+  -> 9 个 SQL 分析脚本（01-08 必做 + 09 可选）
+  -> results/ 导出 CSV 与 PNG
+  -> Pandas 独立复核关键指标
+  -> docs/ 口径表 + 业务 memo
+```
+
+## 技术栈
+
+| 层 | 使用 |
+|---|---|
+| 数据库 | MySQL 8（utf8mb4、主键/索引、LOAD DATA 导入） |
+| SQL | 多表 JOIN、CASE WHEN、日期函数、CTE、窗口函数 |
+| Python | Pandas、Statsmodels、Matplotlib、PyMySQL |
+| 统计 | 95% Wilson 置信区间、指标交叉验证 |
+| 协作 | Git / GitHub、requirements.txt |
+
+## 仓库结构
 
 ```text
 olist-project/
-├── README.md
-├── docs/                  # 数据字典、口径表、业务 memo
-├── data/                  # 原始 CSV（9 张表，来源见“数据说明”）
-├── sql/                   # 00 建表导入；01-08 必做；09 卖家集中度（可选）
-├── analysis/              # Python 分析、交叉复核、绘图、一键重跑
-└── results/               # 全部 SQL/Python 结果 CSV 与图表
+├── data/        # 9 张原始 CSV
+├── sql/         # 00 建表导入；01-09 业务分析 SQL
+├── analysis/    # Python 数据质量、交叉复核、专题、绘图
+├── results/     # 全部结果 CSV 与 PNG
+├── docs/        # 数据字典、口径表、业务 memo
+├── requirements.txt
+└── README.md
 ```
 
-## 复现方法
+---
 
-<details>
-<summary>展开：数据与运行步骤（本机已配置 MySQL 8.0.46 / conda ds_project）</summary>
+## 快速复现
 
-以下命令在仓库根目录执行；原始 CSV 已收录于仓库 `data/`，脚本统一按仓库内 `data/` 读取。首次在新环境运行前先安装依赖：`python -m pip install -r requirements.txt`。
+前提：本机 MySQL 8 已启动，conda 环境 `ds_project` 已创建并安装 [requirements.txt](requirements.txt)。
 
 ```powershell
-# 0) 新环境首次安装依赖（已装可跳过）
-python -m pip install -r requirements.txt
+# 0) 进入项目目录并激活环境
+cd E:\03_Development\DataAnalyst\olist-project
+conda activate ds_project
 
-# 1) 建库导表（在仓库根目录执行；MySQL 重启后如 local_infile 未持久化需先 SET GLOBAL local_infile=1）
-mysql --local-infile=1 --default-character-set=utf8mb4 -h127.0.0.1 -P3306 -uroot -p < sql/00_建表导入.sql
+# 1) 设置本次会话数据库密码（不要提交）
+$env:MYSQL_PWD='你的MySQL密码'
 
-# 2) reviews 逐行核对（CSV vs MySQL）
-$env:MYSQL_PWD='你的密码'
+# 2) 建库导表（PowerShell 不支持 < 输入重定向，故用 cmd 包装）
+cmd /c '""E:\03_Development\MySQL\mysql-8.0.46-winx64\bin\mysql.exe" --local-infile=1 --default-character-set=utf8mb4 -h 127.0.0.1 -P 3306 -u root < "sql\00_建表导入.sql""'
+
+# 3) 导入核对 + 一键重跑 SQL 01-09
 python analysis/import_qc.py
-
-# 3) 一键重跑 01-09 并导出结果 CSV
 python analysis/run_all_sql.py
 
 # 4) Python 数据质量 / 交叉复核 / 专题
@@ -104,31 +120,30 @@ python analysis/01_数据质量.py
 python analysis/02_关键指标复核.py
 python analysis/03_专题分析.py
 
-# 5) 出图（ds_project 环境；本机需 MKL_THREADING_LAYER=TBB，激活脚本与绘图脚本已自动设置）
+# 5) 出图
 python analysis/02_plot_trend.py
 python analysis/03_plot_delay.py
 ```
 
-关键环境：conda `ds_project`（Python 3.12）；依赖清单见 `requirements.txt`（pandas 2.3.3、numpy 2.5.2、scipy 1.18.0、statsmodels 0.15.0、matplotlib 3.9.2、pymysql 1.2.0）。本机 BLAS 为 MKL，需 `MKL_THREADING_LAYER=TBB`（conda 激活时自动设置，绘图脚本也内置兜底）。
-</details>
+复现核对：重跑后 `results/` 应与仓库基线完全一致，可执行 `git diff -- results` 验证。
 
-## 口径要点（完整版见 docs/口径表.md）
+---
 
-| 指标 | 口径 |
-|---|---|
-| 统计范围 | 2016-09-04 ~ 2018-10-17 |
-| GMV | Σ(price+freight)，剔除 canceled/unavailable；items 口径 R$15,735,527.03，与 payments 合计差 R$3,609.98（0.02%）已写明 |
-| 订单量/买家 | 有商品明细的有效订单 98,199；买家按 customer_unique_id 去重 94,983 |
-| 复购率 | 全周期 ≥2 单客户占比 3.04% |
-| Cohort 留存 | 首购月 cohort，第 n 月任意有效订单回访比例；矩阵已补零 |
-| RFM | R≤197/339 天、M≤R$75.25/R$152.09 分档；F=复购（≥2 单） |
-| 漏斗 | 正向序列 created→…→delivered；canceled/unavailable 单列 |
-| 差评/延迟 | score≤2；已送达且日期完整订单，每单一评 |
+## 文档
+
+- [数据字典](docs/数据字典.md)：9 张表的字段、行数与主键检查
+- [口径表](docs/口径表.md)：每个指标的分子、分母、时间窗与剔除规则
+- [业务结论文档](docs/业务结论文档.md)：发现、归因、建议与验证
+
+## 数据来源与许可
+
+数据来源：[Kaggle · Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)。
+
+数据集页面未标注明确 License；本仓库仅用于学习与展示，公开再分发请保留来源与归属。
 
 ## 局限与边界
 
-- 巴西市场数据：方法可迁移，数值不直接照搬到中国市场。
-- 结论为描述性相关/分层差异，不做因果推断。
-- 评价正文缺失率高（标题 88%、正文 59%），评分字段覆盖完整。
-- 数据首尾月份样本稀疏（2017-01 前、2018-09 后），趋势结论以 2017-01 ~ 2018-08 为核心期。
-- 发现 61 单送达早于审批的录入异常（0.06%），未对主结论构成影响。
+- 巴西市场数据：分析方法可迁移，具体数值不直接照搬到中国市场。
+- 结论基于相关与分层差异，不构成因果推断。
+- 评价正文缺失率较高，但评分字段覆盖完整。
+- 数据首尾月份样本稀疏，趋势结论以 2017-01 ~ 2018-08 为核心期。
