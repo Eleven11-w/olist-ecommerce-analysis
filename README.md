@@ -49,8 +49,6 @@
 | 依赖 | pandas 2.3.3、numpy 2.5.2、scipy 1.18.0、statsmodels 0.15.0、matplotlib 3.9.2、pymysql 1.2.0 |
 | 依赖清单 | `requirements.txt` |
 
-本机 BLAS 为 MKL。若 ds_project 环境绘图/矩阵运算崩溃（异常码 `0xc06d007f`），请确认 `MKL_THREADING_LAYER=TBB`；conda 激活脚本与绘图脚本均已内置该设置。
-
 ---
 
 ## 4. 目录结构
@@ -74,7 +72,7 @@ olist-project/
 │   ├── 06_RFM分层.sql
 │   ├── 07_Cohort留存.sql
 │   ├── 08_配送延迟与差评.sql
-│   └── 09_卖家集中度.sql     # 可选 SQL
+│   └── 09_卖家集中度.sql     
 ├── analysis/                # Python 数据质量、交叉复核、专题、绘图、一键 SQL
 └── results/                 # SQL/Python 输出的 CSV 与 PNG
 ```
