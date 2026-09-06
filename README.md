@@ -9,6 +9,13 @@
 
 覆盖维度：GMV 大盘与月度趋势、区域/品类/支付结构、订单生命周期漏斗、RFM 分层、Cohort 留存、配送时效与差评关系、卖家集中度。
 
+
+## 数据说明
+
+- 来源：Kaggle `olistbr/brazilian-ecommerce`（Olist 巴西电商公开数据集）
+- 本仓库 `data/` 收录 9 张原始 CSV（合计约 120 MB），便于离线复现
+- `olist_geolocation_dataset.csv` 约 61 MB，单文件低于 GitHub 100 MB 上限；超过 50 MB 时推送会有提示，属正常
+- 许可与归属以 Kaggle 数据集页面标注为准；公开再分发请保留来源与许可说明
 ## 关键结论
 
 **1. 履约端整体健康，延迟是差评最强解释变量之一**
@@ -48,6 +55,7 @@ GMV 月度趋势与环比（核心期 2017-01 ~ 2018-08）：
 olist-project/
 ├── README.md
 ├── docs/                  # 数据字典、口径表、业务 memo
+├── data/                  # 原始 CSV（9 张表，来源见“数据说明”）
 ├── sql/                   # 00 建表导入；01-08 必做；09 卖家集中度（可选）
 ├── analysis/              # Python 分析、交叉复核、绘图、一键重跑
 └── results/               # 全部 SQL/Python 结果 CSV 与图表
@@ -58,7 +66,7 @@ olist-project/
 <details>
 <summary>展开：数据与运行步骤（本机已配置 MySQL 8.0.46 / conda ds_project）</summary>
 
-原始 CSV 需先按 Kaggle 链接下载到本机（本仓库不含原始数据，脚本内含本机绝对路径 `E:\03_Development\olist-data`，其他机器需同步修改）。
+原始 CSV 已收录于本仓库 `data/`。注意：部分脚本与 `sql/00_建表导入.sql` 仍引用本机旧路径 `E:\03_Development\olist-data`，在新机器复跑前请把读取路径改为 `data/`。
 
 ```powershell
 # 1) 建库导表（MySQL 重启后如 local_infile 未持久化需先 SET GLOBAL local_infile=1）

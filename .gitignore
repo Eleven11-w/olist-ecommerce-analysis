@@ -1,17 +1,15 @@
-# 原始数据与下载缓存一律不入库（README 只放官方下载链接）
-data/
-
+# Raw dataset is distributed in the repository under data/
 # Python / Jupyter
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
 
-# 密钥与本地配置
+# Secrets and local config
 .env
 *password*.txt
 mysql_local.cnf
 
-# 编辑器 / 系统文件
+# Editors / OS
 .vscode/
 .idea/
 Thumbs.db
