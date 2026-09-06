@@ -16,5 +16,5 @@ if not files:
 print("will run:", *files, sep="\n  ")
 for f in files:
     print("=== running", f, "===", flush=True)
-    subprocess.run([sys.executable, EXPORTER, f], check=True)
+    subprocess.run([sys.executable, EXPORTER, os.path.join("sql", f)], check=True)
 print("ALL SQL FILES DONE")
