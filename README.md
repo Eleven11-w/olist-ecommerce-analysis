@@ -104,12 +104,12 @@ python analysis/01_数据质量.py
 python analysis/02_关键指标复核.py
 python analysis/03_专题分析.py
 
-# 5) 出图（本机 ds_project 的 matplotlib savefig 存在环境问题，暂用 base 环境绘图）
+# 5) 出图（ds_project 环境；本机需 MKL_THREADING_LAYER=TBB，激活脚本与绘图脚本已自动设置）
 python analysis/02_plot_trend.py
 python analysis/03_plot_delay.py
 ```
 
-关键环境：conda `ds_project`（Python 3.12）；依赖清单见 `requirements.txt`（pandas 2.3.3、numpy 2.5.2、scipy 1.18.0、statsmodels 0.15.0、matplotlib 3.9.2、pymysql 1.2.0）。
+关键环境：conda `ds_project`（Python 3.12）；依赖清单见 `requirements.txt`（pandas 2.3.3、numpy 2.5.2、scipy 1.18.0、statsmodels 0.15.0、matplotlib 3.9.2、pymysql 1.2.0）。本机 BLAS 为 MKL，需 `MKL_THREADING_LAYER=TBB`（conda 激活时自动设置，绘图脚本也内置兜底）。
 </details>
 
 ## 口径要点（完整版见 docs/口径表.md）

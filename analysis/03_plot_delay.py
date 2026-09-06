@@ -1,7 +1,8 @@
+import os
+os.environ.setdefault("MKL_THREADING_LAYER", "TBB")
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import os
 import pandas as pd
 
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
