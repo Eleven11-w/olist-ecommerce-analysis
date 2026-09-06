@@ -1,0 +1,11 @@
+﻿check,result
+orders_total,99441
+approval_before_purchase,0
+delivered_before_approved,61
+estimated_before_purchase,0
+purchase_range,2016-09-04 21:15:19 ~ 2018-10-17 17:30:18
+item_price_le_0,0
+item_freight_lt_0,0
+payment_value_lt_0,0
+review_score_out_of_1_5,0
+product_negative_dim,0

@@ -1,0 +1,8 @@
+﻿item,rule,note
+R_score3,recency <= 197 days,约33%分位
+R_score2,recency 198-339 days,约33%-67%分位
+R_score1,recency >= 340 days,>67%分位
+M_score3,monetary >= 152.10,约>67%分位
+M_score2,monetary 75.26-152.09,约33%-67%分位
+M_score1,monetary <= 75.25,约<=33%分位
+F_repeat,freq >= 2,"复购客户（共2,887人/3.04%）"

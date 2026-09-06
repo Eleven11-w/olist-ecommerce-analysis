@@ -1,0 +1,5 @@
+﻿payment_type,order_cnt,payment_row_cnt,amount,amount_share_pct
+credit_card,75618,75905,12350042.56,78.47
+boleto,19539,19539,2826802.30,17.96
+voucher,3745,5613,349874.40,2.22
+debit_card,1515,1516,212417.75,1.35

@@ -1,0 +1,10 @@
+﻿table,csv_rows,duplicate_key_rows,duplicate_full_rows,columns
+orders,99441,0,0,8
+order_items,112650,0,0,7
+order_payments,103886,0,0,5
+order_reviews,99224,814,0,7
+customers,99441,0,0,5
+sellers,3095,0,0,4
+products,32951,0,0,9
+geolocation,1000163,na,261831,5
+product_category_name_translation,71,0,0,2

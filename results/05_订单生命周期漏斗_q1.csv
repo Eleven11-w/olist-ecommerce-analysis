@@ -1,0 +1,7 @@
+﻿stage,order_cnt,prev_cnt,step_pct,overall_pct
+created,98207,,,98.76
+approved,98202,98207,99.99,98.75
+invoiced,98200,98202,100.00,98.75
+processing,97886,98200,99.68,98.44
+shipped,97585,97886,99.69,98.13
+delivered,96478,97585,98.87,97.02
