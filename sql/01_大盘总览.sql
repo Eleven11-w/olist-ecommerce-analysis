@@ -7,7 +7,7 @@
 --   客单价 = GMV / 订单量
 --   状态分布 = 全部订单按 order_status 分组
 -- 输出检查：状态分布合计 = 订单总量；GMV 与 order_payments 合计一致
--- 输出 CSV：results/01_大盘总览指标.csv、results/01_订单状态分布.csv
+-- 输出 CSV：results/01_大盘总览_q1.csv（总览）、_q2.csv（payments 核对）、_q3.csv（状态分布）
 
 -- ① 总览指标：GMV、订单量、买家数、客单价
 WITH valid_orders AS (

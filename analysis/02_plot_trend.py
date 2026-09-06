@@ -1,9 +1,10 @@
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import os
 import pandas as pd
 
-root = r"E:\03_Development\DataAnalyst\olist-project"
+root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 df = pd.read_csv(root + r"\results\02_GMV月度趋势与环比_q1.csv")
 df["ym"] = pd.to_datetime(df["ym"])
 core = df[(df["ym"] >= "2017-01-01") & (df["ym"] <= "2018-08-01")].copy()

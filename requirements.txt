@@ -1,0 +1,7 @@
+# Python 3.12 运行依赖（analysis/ 脚本与一键 SQL 导出）
+numpy==2.5.2
+pandas==2.3.3
+scipy==1.18.0
+statsmodels==0.15.0
+matplotlib==3.9.2
+pymysql==1.2.0

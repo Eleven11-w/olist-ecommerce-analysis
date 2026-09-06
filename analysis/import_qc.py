@@ -9,7 +9,8 @@ from collections import Counter
 import pymysql
 
 DB = dict(host="127.0.0.1", port=3306, user="root", password=os.environ["MYSQL_PWD"], database="olist")
-CSV_DIR = "E:/03_Development/olist-data"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CSV_DIR = os.path.join(ROOT, "data")
 
 REVIEW_COLS = [
     "review_id", "order_id", "review_score", "review_comment_title",

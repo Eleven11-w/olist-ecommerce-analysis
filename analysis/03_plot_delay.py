@@ -1,9 +1,10 @@
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import os
 import pandas as pd
 
-root = r"E:\03_Development\DataAnalyst\olist-project"
+root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 df = pd.read_csv(root + r"\results\analysis_03_配送延迟差评率.csv")
 en = {"按时或提前": "On time / early", "延迟1天": "1 day late", "延迟2-3天": "2-3 days late",
       "延迟4-7天": "4-7 days late", "延迟8-14天": "8-14 days late", "延迟15天以上": "15+ days late"}

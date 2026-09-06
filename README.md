@@ -12,10 +12,10 @@
 
 ## 数据说明
 
-- 来源：Kaggle `olistbr/brazilian-ecommerce`（Olist 巴西电商公开数据集）
+- 来源：[Kaggle · Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
 - 本仓库 `data/` 收录 9 张原始 CSV（合计约 120 MB），便于离线复现
 - `olist_geolocation_dataset.csv` 约 61 MB，单文件低于 GitHub 100 MB 上限；超过 50 MB 时推送会有提示，属正常
-- 许可与归属以 Kaggle 数据集页面标注为准；公开再分发请保留来源与许可说明
+- 许可：Kaggle 数据集页面未标注明确 License；本项目仅作学习与展示，公开再分发请保留来源与归属
 ## 关键结论
 
 **1. 履约端整体健康，延迟是差评最强解释变量之一**
@@ -32,6 +32,23 @@ Top10 品类合计 GMV 62.33%；health_beauty 居首（9.14%）；bed_bath_table
 
 **5. 大促脉冲显著**
 月度 GMV 峰值在 2017-11（Black Friday），环比 +53.28%，随后回落 26.50%。
+
+## 关键数字基线（复现对照）
+
+> 口径见 docs/口径表.md；SQL↔Python 复核明细见 results/analysis_02_复核结果.csv；数值与 results/ 下 CSV 一致。
+
+| 指标 | 基线值 | SQL 结果文件 | Python 复核 |
+|---|---|---|---|
+| 有效订单量 | 98,199 | results/01_大盘总览_q1.csv | 一致 |
+| 有效买家数 | 94,983 | results/01_大盘总览_q1.csv | 一致 |
+| GMV（items 口径） | R$15,735,527.03 | results/01_大盘总览_q1.csv | 一致 |
+| GMV（payments 核对） | R$15,739,137.01 | results/01_大盘总览_q2.csv | — |
+| 两口径差额 | R$3,609.98（0.02%） | results/01_大盘总览_q1.csv / _q2.csv | 口径表已解释 |
+| 客单价 AOV | R$160.24 | results/01_大盘总览_q1.csv | 一致 |
+| 复购客户 / 复购率 | 2,887 / 3.04% | results/06_RFM分层_q2.csv | 一致 |
+| Cohort 第 1 月加权留存 | 0.45% | results/07_Cohort留存_q1.csv | 一致 |
+| 送达订单 / 送达率 | 96,478 / 97.02% | results/01_大盘总览_q3.csv | — |
+| 延迟率（可比较已送达单） | 6.77%（6,534 / 96,470） | results/08_配送延迟与差评_q2.csv | results/analysis_03_配送延迟差评率.csv |
 
 ## 可视化
 
@@ -66,10 +83,13 @@ olist-project/
 <details>
 <summary>展开：数据与运行步骤（本机已配置 MySQL 8.0.46 / conda ds_project）</summary>
 
-原始 CSV 已收录于本仓库 `data/`。注意：部分脚本与 `sql/00_建表导入.sql` 仍引用本机旧路径 `E:\03_Development\olist-data`，在新机器复跑前请把读取路径改为 `data/`。
+以下命令在仓库根目录执行；原始 CSV 已收录于仓库 `data/`，脚本统一按仓库内 `data/` 读取。首次在新环境运行前先安装依赖：`python -m pip install -r requirements.txt`。
 
 ```powershell
-# 1) 建库导表（MySQL 重启后如 local_infile 未持久化需先 SET GLOBAL local_infile=1）
+# 0) 新环境首次安装依赖（已装可跳过）
+python -m pip install -r requirements.txt
+
+# 1) 建库导表（在仓库根目录执行；MySQL 重启后如 local_infile 未持久化需先 SET GLOBAL local_infile=1）
 mysql --local-infile=1 --default-character-set=utf8mb4 -h127.0.0.1 -P3306 -uroot -p < sql/00_建表导入.sql
 
 # 2) reviews 逐行核对（CSV vs MySQL）
@@ -89,7 +109,7 @@ python analysis/02_plot_trend.py
 python analysis/03_plot_delay.py
 ```
 
-关键环境：conda `ds_project`（Python 3.12、pandas 2.3.3、numpy 2.5.2、scipy 1.18.0、statsmodels 0.15.0、pymysql 1.2.0）。
+关键环境：conda `ds_project`（Python 3.12）；依赖清单见 `requirements.txt`（pandas 2.3.3、numpy 2.5.2、scipy 1.18.0、statsmodels 0.15.0、matplotlib 3.9.2、pymysql 1.2.0）。
 </details>
 
 ## 口径要点（完整版见 docs/口径表.md）

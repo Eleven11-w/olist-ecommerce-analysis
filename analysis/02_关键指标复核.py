@@ -2,8 +2,8 @@
 import os
 import pandas as pd
 
-DATA = r"E:\03_Development\olist-data"
-ROOT = r"E:\03_Development\DataAnalyst\olist-project"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA = os.path.join(ROOT, "data")
 OUT = os.path.join(ROOT, "results")
 
 orders = pd.read_csv(os.path.join(DATA, "olist_orders_dataset.csv"), parse_dates=["order_purchase_timestamp"])

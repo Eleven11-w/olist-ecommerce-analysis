@@ -5,7 +5,7 @@
 --   各层流失 = 上一层订单数 - 本层订单数；step_pct = 本层/上一层
 --   canceled/unavailable 是终态流失，不进入正向层级，单列展示
 -- 输出检查：created 层 = 订单总量；delivered 层 = 96,478
--- 输出 CSV：results/05_订单生命周期漏斗_q1.csv
+-- 输出 CSV：results/05_订单生命周期漏斗_q1.csv（正向层级）、_q2.csv（终态流失）
 
 SELECT stage, order_cnt,
        LAG(order_cnt) OVER (ORDER BY seq) AS prev_cnt,

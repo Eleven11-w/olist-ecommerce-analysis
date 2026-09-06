@@ -4,8 +4,8 @@ import os
 import pandas as pd
 from statsmodels.stats.proportion import proportion_confint
 
-DATA = r"E:\03_Development\olist-data"
-ROOT = r"E:\03_Development\DataAnalyst\olist-project"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA = os.path.join(ROOT, "data")
 OUT = os.path.join(ROOT, "results")
 ORDER = ["按时或提前", "延迟1天", "延迟2-3天", "延迟4-7天", "延迟8-14天", "延迟15天以上"]
 

@@ -1,7 +1,7 @@
 -- 00_建表导入.sql  |  项目 A：Olist 电商经营分析
 -- 用途：一次性完成 建库(olist) + 建 9 张表 + 导入原始 CSV
 -- 前置：
---   1) 数据在 E:/03_Development/olist-data/
+--   1) 在仓库根目录执行；原始 CSV 位于本仓库 data/（LOAD DATA 使用相对路径）
 --   2) MySQL 服务已启动，并已执行过（重启 MySQL 后需重跑）：
 --        SET GLOBAL local_infile = 1;
 --   3) 客户端必须加 --local-infile=1
@@ -129,7 +129,7 @@ CREATE TABLE product_category_name_translation (
 
 -- ============ 导入（reviews、翻译表为 CRLF；其余为 LF） ============
 
-LOAD DATA LOCAL INFILE 'E:/03_Development/olist-data/olist_orders_dataset.csv'
+LOAD DATA LOCAL INFILE 'data/olist_orders_dataset.csv'
 INTO TABLE orders
 CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY ''
@@ -143,7 +143,7 @@ SET order_purchase_timestamp      = NULLIF(@purchase, ''),
     order_delivered_customer_date = NULLIF(@delivered_customer, ''),
     order_estimated_delivery_date = NULLIF(@estimated, '');
 
-LOAD DATA LOCAL INFILE 'E:/03_Development/olist-data/olist_order_items_dataset.csv'
+LOAD DATA LOCAL INFILE 'data/olist_order_items_dataset.csv'
 INTO TABLE order_items
 CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY ''
@@ -152,7 +152,7 @@ IGNORE 1 LINES
 (order_id, order_item_id, product_id, seller_id, @ship_limit, price, freight_value)
 SET shipping_limit_date = NULLIF(@ship_limit, '');
 
-LOAD DATA LOCAL INFILE 'E:/03_Development/olist-data/olist_order_payments_dataset.csv'
+LOAD DATA LOCAL INFILE 'data/olist_order_payments_dataset.csv'
 INTO TABLE order_payments
 CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY ''
@@ -160,7 +160,7 @@ LINES TERMINATED BY '\n'
 IGNORE 1 LINES
 (order_id, payment_sequential, payment_type, payment_installments, payment_value);
 
-LOAD DATA LOCAL INFILE 'E:/03_Development/olist-data/olist_order_reviews_dataset.csv'
+LOAD DATA LOCAL INFILE 'data/olist_order_reviews_dataset.csv'
 INTO TABLE order_reviews
 CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY ''
@@ -173,7 +173,7 @@ SET review_score          = NULLIF(@score, ''),
     review_creation_date  = NULLIF(@created, ''),
     review_answer_timestamp = NULLIF(@answered, '');
 
-LOAD DATA LOCAL INFILE 'E:/03_Development/olist-data/olist_customers_dataset.csv'
+LOAD DATA LOCAL INFILE 'data/olist_customers_dataset.csv'
 INTO TABLE customers
 CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY ''
@@ -181,7 +181,7 @@ LINES TERMINATED BY '\n'
 IGNORE 1 LINES
 (customer_id, customer_unique_id, customer_zip_code_prefix, customer_city, customer_state);
 
-LOAD DATA LOCAL INFILE 'E:/03_Development/olist-data/olist_sellers_dataset.csv'
+LOAD DATA LOCAL INFILE 'data/olist_sellers_dataset.csv'
 INTO TABLE sellers
 CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY ''
@@ -189,7 +189,7 @@ LINES TERMINATED BY '\n'
 IGNORE 1 LINES
 (seller_id, seller_zip_code_prefix, seller_city, seller_state);
 
-LOAD DATA LOCAL INFILE 'E:/03_Development/olist-data/olist_products_dataset.csv'
+LOAD DATA LOCAL INFILE 'data/olist_products_dataset.csv'
 INTO TABLE products
 CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY ''
@@ -205,7 +205,7 @@ SET product_category_name       = NULLIF(@pcat, ''),
     product_height_cm           = NULLIF(@height, ''),
     product_width_cm            = NULLIF(@width, '');
 
-LOAD DATA LOCAL INFILE 'E:/03_Development/olist-data/olist_geolocation_dataset.csv'
+LOAD DATA LOCAL INFILE 'data/olist_geolocation_dataset.csv'
 INTO TABLE geolocation
 CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY ''
@@ -216,7 +216,7 @@ SET geolocation_lat  = NULLIF(@lat, ''),
     geolocation_lng  = NULLIF(@lng, ''),
     geolocation_city = NULLIF(@city, '');
 
-LOAD DATA LOCAL INFILE 'E:/03_Development/olist-data/product_category_name_translation.csv'
+LOAD DATA LOCAL INFILE 'data/product_category_name_translation.csv'
 INTO TABLE product_category_name_translation
 CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' ESCAPED BY ''
