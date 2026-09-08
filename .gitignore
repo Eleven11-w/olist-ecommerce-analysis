@@ -2,6 +2,8 @@
 # Python / Jupyter
 __pycache__/
 *.pyc
+.venv/
+.pytest_cache/
 .ipynb_checkpoints/
 
 # Secrets and local config
@@ -14,3 +16,8 @@ mysql_local.cnf
 .idea/
 Thumbs.db
 *.log
+*.tmp
+
+# Local BI authoring files; the optimized Excel deliverable is tracked
+*.twb
+*.hyper

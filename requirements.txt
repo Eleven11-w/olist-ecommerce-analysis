@@ -1,7 +1,10 @@
-# Python 3.12 运行依赖（analysis/ 脚本与一键 SQL 导出）
+# Python 3.12：分析、验证与交互看板
 numpy==2.5.2
 pandas==2.3.3
 scipy==1.18.0
 statsmodels==0.15.0
 matplotlib==3.9.2
 pymysql==1.2.0
+plotly>=5.18,<7.0
+streamlit>=1.40,<2.0
+pytest>=8.0,<9.0
