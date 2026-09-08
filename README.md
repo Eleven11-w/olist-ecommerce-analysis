@@ -58,8 +58,6 @@ GMV 月度趋势与环比（环比自 2017-02 起展示，避免稀疏月份失�
 
 ![配送延迟差评率](results/analysis_03_配送延迟差评率.png)
 
-![月度 GMV 趋势](screenshots/01_monthly_gmv.png)
-
 ---
 
 ## 项目流程
